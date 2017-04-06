@@ -28,8 +28,8 @@ producer = KafkaProducer(bootstrap_servers=brokers)
 
 try:
     while True:
-        message = raw_input()
-
+        message = raw_input("Enter message: ")
+        if message in ["Q","q"]: break
         key = None
         partition = 0
 
@@ -54,8 +54,9 @@ try:
             except ValueError:
                 print('Skipping unparsable line:', message, file=sys.stderr)
                 continue
-
+        
         producer.send(args.topic, partition=partition, key=key, value=message)
+        print("message sent!")
 except EOFError:
     pass
 finally:
